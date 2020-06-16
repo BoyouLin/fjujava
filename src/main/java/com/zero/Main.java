@@ -12,6 +12,15 @@ public class Main {
         final int LEFTING =2;
         final int STATUS= 3;
         int func = 0;
+        String data = "AAAAAA,15121321,0";
+        String[] ss = data.split(",");
+        System.out.println(ss[0]);
+        System.out.println(ss[1]);
+        System.out.println(ss[2]);
+        Car c = new Car(ss[0]);
+        c.enterTime = Long.parseLong(ss[1]);
+
+
         List<Car> carlist= new ArrayList<>();
         while (func != 4) {
             System.out.println("1) Car entering");
@@ -30,15 +39,25 @@ public class Main {
                     carlist.add(carEnter);
                     carEnter.enter();
                     break;
+
                 case LEFTING:
                     System.out.println("Please enter the car id.");
                     Car carLeft = new Car(scanner.nextLine());
-                    carlist.add(carLeft);
                     carLeft.left();
+                    for ( Car cccc: carlist) {
+                        if (carLeft.id.equals(cccc.id)){
+                            long duration = carLeft.leaveTime-carLeft.enterTime;
+                            long money = duration*FEE;
+                            carlist.remove(carLeft);
+                            System.out.println("Car ID :" + carLeft.id+" enter time: "+ carLeft.enterTime+" left time: "+carLeft.leaveTime);
+                            System.out.println("fee : " + money);
+                        }
+                    }
                     break;
+
                 case STATUS:
                     for ( Car car: carlist) {
-                        System.out.println("Car :" + car.id+"/ "+car.enterTime+"/ "+car.leaveTime);
+                        System.out.println("Car ID :" + car.id+" enter time: "+ car.enterTime+" left time: "+car.leaveTime);
                     }
                     break;
             }
